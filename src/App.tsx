@@ -1,3 +1,11 @@
+import Navigation from "@/components/Navigation";
+
 export default function App() {
-  return <div></div>;
+  return (
+    <>
+      <div className=" min-h-screen">
+        <Navigation />
+      </div>
+    </>
+  );
 }
