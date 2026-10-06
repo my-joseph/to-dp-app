@@ -304,4 +304,5 @@
 
 @theme {
   --color-black: #1e1e1e;
+  --color-overlay: hsl(2deg 100% 0% / 0.25);
 }

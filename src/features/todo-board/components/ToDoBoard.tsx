@@ -10,7 +10,10 @@ export const initailItem: ToDoItem = {
 
 export default function ToDoBoard() {
   const [toDos, setToDos] = useState<ToDoItem[]>([initailItem]);
-
+  const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const handleFormOpenClick = () => {
+    setIsFormOpen((prev) => !prev);
+  };
   const handleAddNewTodo = (item: ToDoItem) => {
     setToDos((prev) => [...prev, item]);
   };
@@ -39,7 +42,12 @@ export default function ToDoBoard() {
         </article>
         <article>
           <h3 className=" font-semibold text-2xl mb-3">Your Activity</h3>
-          <ToDoColumn toDos={toDos} onAdd={handleAddNewTodo} />
+          <ToDoColumn
+            toDos={toDos}
+            onAdd={handleAddNewTodo}
+            onForm={handleFormOpenClick}
+            isFormOpen={isFormOpen}
+          />
         </article>
       </div>
     </div>

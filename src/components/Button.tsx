@@ -5,13 +5,13 @@ import { initailItem } from "@/features/todo-board/components/ToDoBoard";
 interface ButtonProp {
   label: string;
   icon?: LucideIcon;
-  onAdd?: (item: ToDoItem) => void;
+  onForm: () => void;
 }
 
-export default function Button({ label, icon: Icon, onAdd }: ButtonProp) {
+export default function Button({ label, icon: Icon, onForm }: ButtonProp) {
   return (
     <button
-      onClick={onAdd ? () => onAdd(initailItem) : () => {}}
+      onClick={() => onForm()}
       type="button"
       className={
         Icon

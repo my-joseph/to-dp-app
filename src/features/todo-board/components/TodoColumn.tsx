@@ -1,14 +1,21 @@
 import Button from "@/components/Button";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import { ToDoCard } from "./ToDoCard";
 import { type ToDoItem } from "../types/types";
 
 interface ToDoColumnProp {
   toDos: ToDoItem[];
   onAdd?: (item: ToDoItem) => void;
+  onForm: () => void;
+  isFormOpen: boolean;
 }
 
-export default function ToDoColumn({ onAdd, toDos }: ToDoColumnProp) {
+export default function ToDoColumn({
+  onAdd,
+  toDos,
+  onForm,
+  isFormOpen,
+}: ToDoColumnProp) {
   return (
     <div>
       <div className=" flex flex-col">
@@ -27,7 +34,7 @@ export default function ToDoColumn({ onAdd, toDos }: ToDoColumnProp) {
               Low
             </button>
           </div>
-          <Button label={"Add"} icon={Plus} onAdd={onAdd} />
+          <Button label={"Add"} icon={Plus} onForm={onForm} />
         </div>
         <div className=" my-3">
           <div className=" flex items-center  bg-[#F1F1F1] max-w-100 w-full rounded-full px-4 py-2 gap-4 focus-within:ring-black focus-within:ring">
@@ -47,10 +54,31 @@ export default function ToDoColumn({ onAdd, toDos }: ToDoColumnProp) {
       <div className=" flex flex-col gap-3 w-full">
         {toDos &&
           toDos.length > 0 &&
-          toDos.map((item) => {
-            return <ToDoCard item={item} />;
+          toDos.map((item, index) => {
+            return <ToDoCard key={`${item.title}-${index}`} item={item} />;
           })}
       </div>
+
+      {isFormOpen && (
+        <div className=" w-full h-screen flex justify-center items-center p-8 fixed top-0 left-0 right-0 z-1">
+          <div className=" w-full h-50 bg-slate-50 shadow-lg rounded-xl p-4">
+            <div className=" w-full flex justify-end items-center">
+              <X
+                className=" cursor-pointer hover:text-gray-500 mb-4"
+                onClick={onForm}
+              />
+            </div>
+            <div className=" flex items-center gap-2">
+              <label htmlFor="">Title: </label>
+              <input
+                type="text"
+                className=" bg-[#F6F6F6] rounded-lg outline-0 px-4 py-1 w-full focus:ring"
+                placeholder="New To Do"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
