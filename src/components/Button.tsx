@@ -1,6 +1,4 @@
 import { type LucideIcon } from "lucide-react";
-import { type ToDoItem } from "@/features/todo-board/types/types";
-import { initailItem } from "@/features/todo-board/components/ToDoBoard";
 
 interface ButtonProp {
   label: string;

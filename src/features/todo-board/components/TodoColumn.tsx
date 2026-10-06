@@ -2,7 +2,9 @@ import Button from "@/components/Button";
 import { Plus, Search, X } from "lucide-react";
 import { ToDoCard } from "./ToDoCard";
 import { type ToDoItem } from "../types/types";
-
+import { useEffect, useState } from "react";
+import { type SubmitEvent } from "react";
+import { type TodoPriority } from "../types/types";
 interface ToDoColumnProp {
   toDos: ToDoItem[];
   onAdd?: (item: ToDoItem) => void;
@@ -16,6 +18,38 @@ export default function ToDoColumn({
   onForm,
   isFormOpen,
 }: ToDoColumnProp) {
+  const [title, setTtile] = useState<string>("");
+  const [priority, setPriority] = useState<TodoPriority>("Low");
+
+  const handleInputChange = (newTitle: string) => {
+    setTtile(newTitle);
+  };
+
+  const handlePrioirtySelected = (newPriority: TodoPriority) => {
+    setPriority(newPriority);
+  };
+
+  const handleFormSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const newTitle = title !== "" ? title : "New To do";
+    const newPriority = priority;
+    if (onAdd) {
+      onAdd({
+        title: newTitle,
+        priority: newPriority,
+        createAt: `createAt: ${new Date().toLocaleString()}`,
+      });
+    }
+    setTtile("");
+    setPriority("Low");
+    onForm();
+  };
+
+  useEffect(() => {
+    console.log(title);
+  }, [title]);
+
   return (
     <div>
       <div className=" flex flex-col">
@@ -60,7 +94,10 @@ export default function ToDoColumn({
       </div>
 
       {isFormOpen && (
-        <div className=" w-full h-screen flex justify-center items-center p-8 fixed top-0 left-0 right-0 z-1">
+        <form
+          className=" w-full h-screen flex justify-center items-center p-8 fixed top-0 left-0 right-0 z-1"
+          onSubmit={handleFormSubmit}
+        >
           <div className=" w-full h-50 bg-slate-50 shadow-lg rounded-xl p-4">
             <div className=" w-full flex justify-end items-center">
               <X
@@ -69,15 +106,40 @@ export default function ToDoColumn({
               />
             </div>
             <div className=" flex items-center gap-2">
-              <label htmlFor="">Title: </label>
+              <label htmlFor="toDoInput">Title: </label>
               <input
+                id="toDoInput"
+                value={title}
+                onChange={(event) => handleInputChange(event.target.value)}
                 type="text"
                 className=" bg-[#F6F6F6] rounded-lg outline-0 px-4 py-1 w-full focus:ring"
                 placeholder="New To Do"
               />
+              <button className=" flex gap-2 bg-black text-white p-2 rounded-xl pr-3 justify-center items-center cursor-pointer">
+                <Plus className=" w-5 h-5 aspect-square shrink-0" />
+                <span>Add</span>
+              </button>
+            </div>
+            <div>
+              <label htmlFor="priority">Priority: </label>
+              <select
+                value={priority}
+                onChange={(event) =>
+                  handlePrioirtySelected(event.target.value as TodoPriority)
+                }
+                name="priority"
+                id="priority"
+                className=" bg-[#F6F6F6] px-2 py-1 outline-0"
+              >
+                <option selected value="Low">
+                  Low
+                </option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
             </div>
           </div>
-        </div>
+        </form>
       )}
     </div>
   );

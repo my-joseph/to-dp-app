@@ -5,7 +5,7 @@ import { type ToDoItem } from "../types/types";
 export const initailItem: ToDoItem = {
   title: "New To Do",
   priority: "Low",
-  createAt: `${new Date()}`,
+  createAt: `${new Date().toLocaleString()}`,
 };
 
 export default function ToDoBoard() {
