@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react";
 import ToDoColumn from "./TodoColumn";
+import { type ToDoItem } from "../types/types";
+
+export const initailItem: ToDoItem = {
+  title: "New To Do",
+  priority: "Low",
+  createAt: `${new Date()}`,
+};
 
 export default function ToDoBoard() {
+  const [toDos, setToDos] = useState<ToDoItem[]>([initailItem]);
+
+  const handleAddNewTodo = (item: ToDoItem) => {
+    setToDos((prev) => [...prev, item]);
+  };
+
+  useEffect(() => {
+    console.log(toDos);
+  }, [toDos]);
   return (
     <div className=" p-4 pt-0">
       <div className=" bg-white w-full min-h-screen rounded-3xl flex flex-col p-4">
@@ -22,7 +39,7 @@ export default function ToDoBoard() {
         </article>
         <article>
           <h3 className=" font-semibold text-2xl mb-3">Your Activity</h3>
-          <ToDoColumn />
+          <ToDoColumn toDos={toDos} onAdd={handleAddNewTodo} />
         </article>
       </div>
     </div>

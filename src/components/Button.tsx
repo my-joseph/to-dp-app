@@ -1,13 +1,17 @@
-import { icons, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
+import { type ToDoItem } from "@/features/todo-board/types/types";
+import { initailItem } from "@/features/todo-board/components/ToDoBoard";
 
 interface ButtonProp {
   label: string;
   icon?: LucideIcon;
+  onAdd?: (item: ToDoItem) => void;
 }
 
-export default function Button({ label, icon: Icon }: ButtonProp) {
+export default function Button({ label, icon: Icon, onAdd }: ButtonProp) {
   return (
     <button
+      onClick={onAdd ? () => onAdd(initailItem) : () => {}}
       type="button"
       className={
         Icon

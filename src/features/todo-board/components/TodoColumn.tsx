@@ -1,8 +1,14 @@
 import Button from "@/components/Button";
 import { Plus, Search } from "lucide-react";
 import { ToDoCard } from "./ToDoCard";
+import { type ToDoItem } from "../types/types";
 
-export default function ToDoColumn() {
+interface ToDoColumnProp {
+  toDos: ToDoItem[];
+  onAdd?: (item: ToDoItem) => void;
+}
+
+export default function ToDoColumn({ onAdd, toDos }: ToDoColumnProp) {
   return (
     <div>
       <div className=" flex flex-col">
@@ -21,7 +27,7 @@ export default function ToDoColumn() {
               Low
             </button>
           </div>
-          <Button label={"Add"} icon={Plus} />
+          <Button label={"Add"} icon={Plus} onAdd={onAdd} />
         </div>
         <div className=" my-3">
           <div className=" flex items-center  bg-[#F1F1F1] max-w-100 w-full rounded-full px-4 py-2 gap-4 focus-within:ring-black focus-within:ring">
@@ -39,10 +45,11 @@ export default function ToDoColumn() {
       </div>
 
       <div className=" flex flex-col gap-3 w-full">
-        <ToDoCard />
-        <ToDoCard />
-        <ToDoCard />
-        <ToDoCard />
+        {toDos &&
+          toDos.length > 0 &&
+          toDos.map((item) => {
+            return <ToDoCard item={item} />;
+          })}
       </div>
     </div>
   );
