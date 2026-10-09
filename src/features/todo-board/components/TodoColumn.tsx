@@ -89,7 +89,15 @@ export default function ToDoColumn({
         {toDos &&
           toDos.length > 0 &&
           toDos.map((item, index) => {
-            return <ToDoCard key={`${item.title}-${index}`} item={item} />;
+            return (
+              <ToDoCard
+                onTitleChange={handleInputChange}
+                onSave={handleFormSubmit}
+                key={`${item.title}-${index}`}
+                title={title}
+                item={item}
+              />
+            );
           })}
       </div>
 
